@@ -46,7 +46,7 @@ const OnScreenKeyboard = ({
         <View key={`row-${rowIndex}`} style={styles.row}>
           {row.map((key, keyIndex) => (
             <Pressable
-                onPress={() => onKeyPressed(key)}
+              onPress={() => onKeyPressed(key)}
               key={`key-${key}`}
               style={({ pressed }) => [
                 styles.key,
@@ -68,7 +68,7 @@ const OnScreenKeyboard = ({
                 style={[
                   styles.keyText,
                   key === "ENTER" && { fontSize: 12 },
-                    isInLetters(key) && { color: "#fff" },
+                  isInLetters(key) && { color: "#fff" },
                 ]}
               >
                 {isSpecialKey(key) ? (
