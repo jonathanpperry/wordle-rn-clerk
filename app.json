@@ -3,6 +3,7 @@
     "name": "wordle-clone",
     "slug": "wordle-clone",
     "version": "1.0.0",
+    "jsEngine": "jsc",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -27,10 +28,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-font", "expo-secure-store"],
     "experiments": {
       "typedRoutes": true
     }
