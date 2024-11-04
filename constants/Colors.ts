@@ -1,6 +1,6 @@
 export const GREEN = "#60AB55";
 export const YELLOW = "#BCAD4C";
-export const DARK = "#787c7e";
+export const DARK = "#787C7E";
 
 export const Colors = {
   light: {

@@ -67,6 +67,7 @@ export default function Index() {
             <ThemedText style={styles.btnText}>Log in</ThemedText>
           </TouchableOpacity>
         </SignedIn>
+
         <TouchableOpacity
           onPress={handlePresentSubscribeModal}
           style={[styles.btn, { borderColor: textColor }]}
