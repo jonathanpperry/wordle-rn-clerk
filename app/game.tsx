@@ -25,7 +25,7 @@ const Page = () => {
   const router = useRouter();
 
   const [rows, setRows] = useState<string[][]>(
-    new Array(ROWS).fill(new Array(5).fill("a"))
+    new Array(ROWS).fill(new Array(5).fill(""))
   );
 
   const [curRow, setCurRow] = useState(0);
@@ -107,14 +107,14 @@ const Page = () => {
     setTimeout(() => {
       if (currentWord === word) {
         console.log("🚀 ~ checkWord ~ WIN");
-        // router.push(
-        //   `/end?win=true&word=${word}&gameField=${JSON.stringify(rows)}`
-        // );
+        router.push(
+          `/end?win=true&word=${word}&gameField=${JSON.stringify(rows)}`
+        );
       } else if (curRow + 1 >= rows.length) {
         console.log("GAME OVER");
-        // router.push(
-        //   `/end?win=false&word=${word}&gameField=${JSON.stringify(rows)}`
-        // );
+        router.push(
+          `/end?win=false&word=${word}&gameField=${JSON.stringify(rows)}`
+        );
       }
     }, 1500);
 
