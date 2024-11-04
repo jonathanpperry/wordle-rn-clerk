@@ -7,10 +7,10 @@ import { StyleSheet, Text, useColorScheme, View } from "react-native";
 import { allWords } from "@/utils/allWords";
 import { words } from "@/utils/targetWords";
 
-const ROWS = 6;
+const ROWS = 1;
 
 const Page = () => {
-  // const [word, setWord] = useState(
+  // const [word,  ] = useState(
   //   words[Math.floor(Math.random() * words.length)]
   // );
   const [word, setWord] = useState("jonny");
