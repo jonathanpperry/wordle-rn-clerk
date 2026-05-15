@@ -1,116 +1,117 @@
-import { Stack, useRouter } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import {
-  useFonts,
-  FrankRuhlLibre_800ExtraBold,
-  FrankRuhlLibre_500Medium,
-  FrankRuhlLibre_900Black,
-} from "@expo-google-fonts/frank-ruhl-libre";
-import { useEffect } from "react";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { TouchableOpacity, useColorScheme } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
-import { tokenCache } from "@/utils/cache";
-import Logo from "@/assets/images/nyt-logo.svg";
-import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "@/constants/Colors";
+// import { Stack, useRouter } from 'expo-router';
+// import {
+//   useFonts,
+//   FrankRuhlLibre_800ExtraBold,
+//   FrankRuhlLibre_500Medium,
+//   FrankRuhlLibre_900Black,
+// } from '@expo-google-fonts/frank-ruhl-libre';
+// import { useColorScheme, TouchableOpacity, Appearance, Platform } from 'react-native';
+// import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+// import * as SplashScreen from 'expo-splash-screen';
+// import { useEffect } from 'react';
+// import { GestureHandlerRootView } from 'react-native-gesture-handler';
+// import Ionicons from '@expo/vector-icons/Ionicons';
+// import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+// import Logo from '@/assets/images/nyt-logo.svg';
+// import { Colors } from '@/constants/Colors';
+// import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
+// import { tokenCache } from '@/utils/cache';
+// import { useMMKVBoolean, useMMKVListener } from 'react-native-mmkv';
+// import { storage } from '@/utils/storage';
+// const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
-import { LogBox } from "react-native";
-LogBox.ignoreAllLogs();
+// if (!publishableKey) {
+//   throw new Error(
+//     'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
+//   );
+// }
 
-const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+// // Load the fonts first before hiding the splash screen
+// SplashScreen.preventAutoHideAsync();
 
-if (!publishableKey) {
-  throw new Error(
-    "Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env"
-  );
-}
+// export default function RootLayout() {
+//   const colorScheme = useColorScheme();
+//   const router = useRouter();
+//   const [dark] = useMMKVBoolean('dark-mode', storage);
 
-SplashScreen.preventAutoHideAsync();
+//   useEffect(() => {
+//     if (Platform.OS !== 'web') {
+//       Appearance.setColorScheme(dark ? 'dark' : 'light');
+//     }
+//   }, [dark]);
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+//   let [fontsLoaded] = useFonts({
+//     FrankRuhlLibre_800ExtraBold,
+//     FrankRuhlLibre_500Medium,
+//     FrankRuhlLibre_900Black,
+//   });
 
-  const router = useRouter();
+//   useEffect(() => {
+//     if (fontsLoaded) {
+//       SplashScreen.hideAsync();
+//     }
+//   }, [fontsLoaded]);
 
-  let [fontsLoaded] = useFonts({
-    FrankRuhlLibre_800ExtraBold,
-    FrankRuhlLibre_500Medium,
-    FrankRuhlLibre_900Black,
-  });
+//   if (!fontsLoaded) {
+//     return null;
+//   }
 
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) return null;
-
-  return (
-    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-      <ClerkLoaded>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <BottomSheetModalProvider>
-              <Stack>
-                <Stack.Screen
-                  name="index"
-                  options={{ headerTitle: "Wordle", headerShown: false }}
-                />
-
-                <Stack.Screen
-                  name="login"
-                  options={{
-                    presentation: "modal",
-                    headerShadowVisible: false,
-                    headerTitle: () => <Logo width={150} height={40} />,
-                    headerLeft: () => (
-                      <TouchableOpacity onPress={() => router.back()}>
-                        <Ionicons
-                          name="close"
-                          size={26}
-                          color={Colors.light.gray}
-                        />
-                      </TouchableOpacity>
-                    ),
-                  }}
-                />
-
-                <Stack.Screen
-                  name="game"
-                  options={{
-                    headerBackTitle: "Wordle",
-                    headerTintColor: colorScheme === "dark" ? "#fff" : "#000",
-                    title: "",
-                    headerBackTitleStyle: {
-                      fontSize: 26,
-                      fontFamily: "FrankRuhlLibre_800ExtraBold",
-                    },
-                  }}
-                />
-
-                <Stack.Screen
-                  name="end"
-                  options={{
-                    presentation: "fullScreenModal",
-                    title: "",
-                    headerShadowVisible: false,
-                  }}
-                />
-              </Stack>
-            </BottomSheetModalProvider>
-          </GestureHandlerRootView>
-        </ThemeProvider>
-      </ClerkLoaded>
-    </ClerkProvider>
-  );
-}
+//   return (
+//     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+//       <ClerkLoaded>
+//         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+//           <GestureHandlerRootView style={{ flex: 1 }}>
+//             <BottomSheetModalProvider>
+//               <Stack>
+//                 <Stack.Screen
+//                   name="index"
+//                   options={{
+//                     headerShown: false,
+//                   }}
+//                 />
+//                 <Stack.Screen
+//                   name="game"
+//                   options={{
+//                     headerBackTitle: 'Wordle',
+//                     headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
+//                     headerBackTitleStyle: {
+//                       fontFamily: 'FrankRuhlLibre_800ExtraBold',
+//                       fontSize: 26,
+//                     },
+//                     title: '',
+//                   }}
+//                 />
+//                 <Stack.Screen
+//                   name="login"
+//                   options={{
+//                     presentation: 'modal',
+//                     headerTitle: () => <Logo width={150} height={40} />,
+//                     headerShadowVisible: false,
+//                     headerLeft: () => (
+//                       <TouchableOpacity onPress={() => router.back()}>
+//                         <Ionicons name="close" size={26} color={Colors.light.gray} />
+//                       </TouchableOpacity>
+//                     ),
+//                   }}
+//                 />
+//                 <Stack.Screen
+//                   name="end"
+//                   options={{
+//                     presentation: 'fullScreenModal',
+//                     title: '',
+//                     headerShadowVisible: false,
+//                     // headerStyle: {
+//                     //   backgroundColor: '#fff',
+//                     // },
+//                     // headerTransparent: true,
+//                     // headerShown: false,
+//                   }}
+//                 />
+//               </Stack>
+//             </BottomSheetModalProvider>
+//           </GestureHandlerRootView>
+//         </ThemeProvider>
+//       </ClerkLoaded>
+//     </ClerkProvider>
+//   );
+// }

@@ -39,7 +39,7 @@ const SubscribeModal = forwardRef<Ref>((props, ref) => {
         onPress={dismiss}
       />
     ),
-    []
+    [],
   );
 
   return (
