@@ -1,14 +1,15 @@
-// import { Stack, useRouter } from 'expo-router';
-// import {
-//   useFonts,
-//   FrankRuhlLibre_800ExtraBold,
-//   FrankRuhlLibre_500Medium,
-//   FrankRuhlLibre_900Black,
-// } from '@expo-google-fonts/frank-ruhl-libre';
+import { Stack, useRouter } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import {
+  useFonts,
+  FrankRuhlLibre_800ExtraBold,
+  FrankRuhlLibre_500Medium,
+  FrankRuhlLibre_900Black,
+} from "@expo-google-fonts/frank-ruhl-libre";
+import { useEffect } from "react";
 // import { useColorScheme, TouchableOpacity, Appearance, Platform } from 'react-native';
 // import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 // import * as SplashScreen from 'expo-splash-screen';
-// import { useEffect } from 'react';
 // import { GestureHandlerRootView } from 'react-native-gesture-handler';
 // import Ionicons from '@expo/vector-icons/Ionicons';
 // import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -26,35 +27,47 @@
 //   );
 // }
 
-// // Load the fonts first before hiding the splash screen
-// SplashScreen.preventAutoHideAsync();
+// Load the fonts first before hiding the splash screen
+SplashScreen.preventAutoHideAsync();
 
-// export default function RootLayout() {
-//   const colorScheme = useColorScheme();
-//   const router = useRouter();
-//   const [dark] = useMMKVBoolean('dark-mode', storage);
+export default function RootLayout() {
+  //   const colorScheme = useColorScheme();
+  //   const router = useRouter();
+  //   const [dark] = useMMKVBoolean('dark-mode', storage);
 
-//   useEffect(() => {
-//     if (Platform.OS !== 'web') {
-//       Appearance.setColorScheme(dark ? 'dark' : 'light');
-//     }
-//   }, [dark]);
+  //   useEffect(() => {
+  //     if (Platform.OS !== 'web') {
+  //       Appearance.setColorScheme(dark ? 'dark' : 'light');
+  //     }
+  //   }, [dark]);
 
-//   let [fontsLoaded] = useFonts({
-//     FrankRuhlLibre_800ExtraBold,
-//     FrankRuhlLibre_500Medium,
-//     FrankRuhlLibre_900Black,
-//   });
+  let [fontsLoaded] = useFonts({
+    FrankRuhlLibre_800ExtraBold,
+    FrankRuhlLibre_500Medium,
+    FrankRuhlLibre_900Black,
+  });
 
-//   useEffect(() => {
-//     if (fontsLoaded) {
-//       SplashScreen.hideAsync();
-//     }
-//   }, [fontsLoaded]);
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
-//   if (!fontsLoaded) {
-//     return null;
-//   }
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack>
+  );
+}
 
 //   return (
 //     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>

@@ -9,7 +9,7 @@ import {
 import Icon from "@/assets/images/wordle-icon.svg";
 import { format } from "date-fns";
 import { Colors } from "@/constants/Colors";
-import ThemedText from '@/components/ThemedText';
+import ThemedText from "@/components/ThemedText";
 import { Link } from "expo-router";
 import SubscribeModal from "@/components/SubscribeModal";
 // import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -42,6 +42,34 @@ export default function Index() {
         <ThemedText style={styles.text}>
           Get 6 chances to guess a 5-letter word.
         </ThemedText>
+      </Animated.View>
+
+      <View style={styles.menu}>
+        <Link
+          href="/game"
+          style={[styles.btn, { backgroundColor: "#000" }]}
+          asChild
+        >
+          <TouchableOpacity>
+            <Text style={[styles.btnText, styles.primaryText]}>Play</Text>
+          </TouchableOpacity>
+        </Link>
+
+        <TouchableOpacity style={styles.btn}>
+          <Text style={styles.btnText}>Log In</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btn}>
+          <Text style={styles.btnText}>Subscribe</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Animated.View style={styles.footer} entering={FadeIn.delay(300)}>
+        <ThemedText style={styles.footerDate}>
+          {format(new Date(), "MMMM d, yyyy")}
+        </ThemedText>
+        <ThemedText style={styles.footerText}>No. 1151</ThemedText>
+        <ThemedText style={styles.footerText}>Edited by JonnyRamen</ThemedText>
       </Animated.View>
     </Animated.View>
   );
