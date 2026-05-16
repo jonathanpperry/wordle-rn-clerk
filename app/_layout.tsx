@@ -1,5 +1,4 @@
 import { Stack, useRouter } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
 import {
   useFonts,
   FrankRuhlLibre_800ExtraBold,
@@ -7,10 +6,19 @@ import {
   FrankRuhlLibre_900Black,
 } from "@expo-google-fonts/frank-ruhl-libre";
 import { useEffect } from "react";
-// import { useColorScheme, TouchableOpacity, Appearance, Platform } from 'react-native';
-// import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-// import * as SplashScreen from 'expo-splash-screen';
-// import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {
+  useColorScheme,
+  TouchableOpacity,
+  Appearance,
+  Platform,
+} from "react-native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import * as SplashScreen from "expo-splash-screen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 // import Ionicons from '@expo/vector-icons/Ionicons';
 // import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 // import Logo from '@/assets/images/nyt-logo.svg';
@@ -31,7 +39,7 @@ import { useEffect } from "react";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  //   const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
   //   const router = useRouter();
   //   const [dark] = useMMKVBoolean('dark-mode', storage);
 
@@ -58,14 +66,16 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack>
+    </ThemeProvider>
   );
 }
 

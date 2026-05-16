@@ -47,7 +47,7 @@ export default function Index() {
       <View style={styles.menu}>
         <Link
           href="/game"
-          style={[styles.btn, { backgroundColor: "#000" }]}
+          style={[styles.btn, { backgroundColor: colorScheme === 'light' ? "#000" : "#4a4a4a" }]}
           asChild
         >
           <TouchableOpacity>
@@ -55,11 +55,11 @@ export default function Index() {
           </TouchableOpacity>
         </Link>
 
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={[styles.btn, { borderColor: textColor }]}>
           <Text style={styles.btnText}>Log In</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={[styles.btn, { borderColor: textColor }]}>
           <Text style={styles.btnText}>Subscribe</Text>
         </TouchableOpacity>
       </View>
