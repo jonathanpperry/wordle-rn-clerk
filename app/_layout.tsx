@@ -23,17 +23,18 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import Logo from "@/assets/images/nyt-logo.svg";
 import { Colors } from "@/constants/Colors";
-// import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
-// import { tokenCache } from '@/utils/cache';
+import { ClerkProvider, ClerkLoaded } from "@clerk/expo";
+import { tokenCache } from '@/utils/cache';
 // import { useMMKVBoolean, useMMKVListener } from 'react-native-mmkv';
 // import { storage } from '@/utils/storage';
-// const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
-// if (!publishableKey) {
-//   throw new Error(
-//     'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
-//   );
-// }
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+if (!publishableKey) {
+  throw new Error(
+    "Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env",
+  );
+}
 
 // Load the fonts first before hiding the splash screen
 SplashScreen.preventAutoHideAsync();
@@ -66,121 +67,67 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <BottomSheetModalProvider>
-          <Stack>
-            <Stack.Screen
-              name="index"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="game"
-              options={{
-                headerBackTitle: "Wordle",
-                headerTintColor: colorScheme === "dark" ? "#fff" : "#000",
-                headerBackTitleStyle: {
-                  fontFamily: "FrankRuhlLibre_800ExtraBold",
-                  fontSize: 26,
-                },
-                title: "",
-              }}
-            />
-            <Stack.Screen
-              name="login"
-              options={{
-                presentation: "modal",
-                headerTitle: () => <Logo width={150} height={40} />,
-                headerShadowVisible: false,
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons
-                      name="close"
-                      size={26}
-                      color={Colors.light.gray}
-                    />
-                  </TouchableOpacity>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="end"
-              options={{
-                presentation: "fullScreenModal",
-                title: "",
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: "#fff",
-                },
-                headerTransparent: true,
-                headerShown: false,
-              }}
-            />
-          </Stack>
-        </BottomSheetModalProvider>
-      </GestureHandlerRootView>
-    </ThemeProvider>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <ClerkLoaded>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <BottomSheetModalProvider>
+              <Stack>
+                <Stack.Screen
+                  name="index"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="game"
+                  options={{
+                    headerBackTitle: "Wordle",
+                    headerTintColor: colorScheme === "dark" ? "#fff" : "#000",
+                    headerBackTitleStyle: {
+                      fontFamily: "FrankRuhlLibre_800ExtraBold",
+                      fontSize: 26,
+                    },
+                    title: "",
+                  }}
+                />
+                <Stack.Screen
+                  name="login"
+                  options={{
+                    presentation: "modal",
+                    headerTitle: () => <Logo width={150} height={40} />,
+                    headerShadowVisible: false,
+                    headerLeft: () => (
+                      <TouchableOpacity onPress={() => router.back()}>
+                        <Ionicons
+                          name="close"
+                          size={26}
+                          color={Colors.light.gray}
+                        />
+                      </TouchableOpacity>
+                    ),
+                  }}
+                />
+                <Stack.Screen
+                  name="end"
+                  options={{
+                    presentation: "fullScreenModal",
+                    title: "",
+                    headerShadowVisible: false,
+                    headerStyle: {
+                      backgroundColor: "#fff",
+                    },
+                    headerTransparent: true,
+                    headerShown: false,
+                  }}
+                />
+              </Stack>
+            </BottomSheetModalProvider>
+          </GestureHandlerRootView>
+        </ThemeProvider>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 }
-
-//   return (
-//     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-//       <ClerkLoaded>
-//         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-//           <GestureHandlerRootView style={{ flex: 1 }}>
-//             <BottomSheetModalProvider>
-//               <Stack>
-//                 <Stack.Screen
-//                   name="index"
-//                   options={{
-//                     headerShown: false,
-//                   }}
-//                 />
-//                 <Stack.Screen
-//                   name="game"
-//                   options={{
-//                     headerBackTitle: 'Wordle',
-//                     headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
-//                     headerBackTitleStyle: {
-//                       fontFamily: 'FrankRuhlLibre_800ExtraBold',
-//                       fontSize: 26,
-//                     },
-//                     title: '',
-//                   }}
-//                 />
-//                 <Stack.Screen
-//                   name="login"
-//                   options={{
-//                     presentation: 'modal',
-//                     headerTitle: () => <Logo width={150} height={40} />,
-//                     headerShadowVisible: false,
-//                     headerLeft: () => (
-//                       <TouchableOpacity onPress={() => router.back()}>
-//                         <Ionicons name="close" size={26} color={Colors.light.gray} />
-//                       </TouchableOpacity>
-//                     ),
-//                   }}
-//                 />
-//                 <Stack.Screen
-//                   name="end"
-//                   options={{
-//                     presentation: 'fullScreenModal',
-//                     title: '',
-//                     headerShadowVisible: false,
-//                     // headerStyle: {
-//                     //   backgroundColor: '#fff',
-//                     // },
-//                     // headerTransparent: true,
-//                     // headerShown: false,
-//                   }}
-//                 />
-//               </Stack>
-//             </BottomSheetModalProvider>
-//           </GestureHandlerRootView>
-//         </ThemeProvider>
-//       </ClerkLoaded>
-//     </ClerkProvider>
-//   );
-// }

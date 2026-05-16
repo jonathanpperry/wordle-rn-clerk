@@ -14,7 +14,7 @@ import { Link } from "expo-router";
 import SubscribeModal from "@/components/SubscribeModal";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useRef } from "react";
-// import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-expo';
+import { useAuth } from "@clerk/expo";
 import Animated, {
   FadeIn,
   FadeInDown,
@@ -26,12 +26,14 @@ const AnimatedTouchableOpacity =
 
 export default function Index() {
   const colorScheme = useColorScheme();
-  const backgroundColor = Colors[colorScheme ?? "light"].background;
-  const textColor = Colors[colorScheme ?? "light"].text;
+  const scheme = (colorScheme ?? "light") as "light" | "dark";
+  const backgroundColor = Colors[scheme].background;
+  const textColor = Colors[scheme].text;
+
   const subscribeModalRef = useRef<BottomSheetModal>(null);
 
-  // const { width } = useWindowDimensions();
-  // const { signOut } = useAuth();
+  const { width } = useWindowDimensions();
+  const { isSignedIn, signOut } = useAuth();
   const handlePresentSubscribeModalPress = () =>
     subscribeModalRef.current?.present();
 
@@ -47,26 +49,46 @@ export default function Index() {
         </ThemedText>
       </Animated.View>
 
-      <View style={styles.menu}>
-        <Link
-          href="/game"
-          style={[
-            styles.btn,
-            { backgroundColor: colorScheme === "light" ? "#000" : "#4a4a4a" },
-          ]}
-          asChild
-        >
-          <TouchableOpacity>
+      <View
+        style={[styles.menu, { flexDirection: width > 600 ? "row" : "column" }]}
+      >
+        <Link href="/game" asChild>
+          <TouchableOpacity
+            style={StyleSheet.flatten([
+              styles.btn,
+              {
+                backgroundColor: colorScheme === "light" ? "#000" : "#4a4a4a",
+              },
+            ])}
+          >
             <Text style={[styles.btnText, styles.primaryText]}>Play</Text>
           </TouchableOpacity>
         </Link>
 
-        <TouchableOpacity style={[styles.btn, { borderColor: textColor }]}>
-          <Text style={styles.btnText}>Log In</Text>
-        </TouchableOpacity>
+        {!isSignedIn && (
+          <Link href="/login" asChild>
+            <TouchableOpacity
+              style={StyleSheet.flatten([
+                styles.btn,
+                { borderColor: textColor },
+              ])}
+            >
+              <Text style={styles.btnText}>Log In</Text>
+            </TouchableOpacity>
+          </Link>
+        )}
+
+        {isSignedIn && (
+          <TouchableOpacity
+            style={[styles.btn, { borderColor: textColor }]}
+            onPress={() => signOut()}
+          >
+            <Text style={styles.btnText}>Sign Out</Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity
-          style={[styles.btn, { borderColor: textColor }]}
+          style={StyleSheet.flatten([styles.btn, { borderColor: textColor }])}
           onPress={handlePresentSubscribeModalPress}
         >
           <Text style={styles.btnText}>Subscribe</Text>
