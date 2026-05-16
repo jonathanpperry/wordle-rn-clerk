@@ -12,7 +12,7 @@ import { Colors } from "@/constants/Colors";
 import ThemedText from "@/components/ThemedText";
 import { Link } from "expo-router";
 import SubscribeModal from "@/components/SubscribeModal";
-// import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useRef } from "react";
 // import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-expo';
 import Animated, {
@@ -28,14 +28,17 @@ export default function Index() {
   const colorScheme = useColorScheme();
   const backgroundColor = Colors[colorScheme ?? "light"].background;
   const textColor = Colors[colorScheme ?? "light"].text;
-  //   const subscribeModalRef = useRef<BottomSheetModal>(null);
-  const { width } = useWindowDimensions();
-  //   const { signOut } = useAuth();
+  const subscribeModalRef = useRef<BottomSheetModal>(null);
 
-  //   const handlePresentSubscribeModalPress = () => subscribeModalRef.current?.present();
+  // const { width } = useWindowDimensions();
+  // const { signOut } = useAuth();
+  const handlePresentSubscribeModalPress = () =>
+    subscribeModalRef.current?.present();
 
   return (
     <Animated.View style={[styles.container, { backgroundColor }]}>
+      <SubscribeModal ref={subscribeModalRef} />
+
       <Animated.View style={styles.header} entering={FadeInDown}>
         <Icon width={100} height={70} />
         <ThemedText style={styles.title}>Wordle</ThemedText>
@@ -47,7 +50,10 @@ export default function Index() {
       <View style={styles.menu}>
         <Link
           href="/game"
-          style={[styles.btn, { backgroundColor: colorScheme === 'light' ? "#000" : "#4a4a4a" }]}
+          style={[
+            styles.btn,
+            { backgroundColor: colorScheme === "light" ? "#000" : "#4a4a4a" },
+          ]}
           asChild
         >
           <TouchableOpacity>
@@ -59,7 +65,10 @@ export default function Index() {
           <Text style={styles.btnText}>Log In</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.btn, { borderColor: textColor }]}>
+        <TouchableOpacity
+          style={[styles.btn, { borderColor: textColor }]}
+          onPress={handlePresentSubscribeModalPress}
+        >
           <Text style={styles.btnText}>Subscribe</Text>
         </TouchableOpacity>
       </View>

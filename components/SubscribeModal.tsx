@@ -4,6 +4,7 @@ import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetScrollView,
+  BottomSheetView,
   useBottomSheetModal,
 } from "@gorhom/bottom-sheet";
 import { defaultStyles } from "@/constants/Styles";
@@ -25,9 +26,9 @@ const BENEFITS = [
 ];
 
 const SubscribeModal = forwardRef<Ref>((props, ref) => {
-  const snapPoints = useMemo(() => ["90%"], []);
+  const snapPoints = useMemo(() => ["95%"], []);
   const { dismiss } = useBottomSheetModal();
-  const { bottom } = useSafeAreaInsets();
+  const { bottom, top } = useSafeAreaInsets();
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -48,9 +49,11 @@ const SubscribeModal = forwardRef<Ref>((props, ref) => {
       index={0}
       backdropComponent={renderBackdrop}
       snapPoints={snapPoints}
+      enableDynamicSizing={false}
       handleComponent={null}
+      topInset={top}
     >
-      <View style={styles.contentContainer}>
+      <BottomSheetView style={styles.contentContainer}>
         <View style={styles.modalBtns}>
           <Link href={"/login"} asChild>
             <TouchableOpacity>
@@ -61,7 +64,10 @@ const SubscribeModal = forwardRef<Ref>((props, ref) => {
             <Ionicons name="close" size={28} color={Colors.light.gray} />
           </TouchableOpacity>
         </View>
-        <BottomSheetScrollView>
+        <BottomSheetScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
           <Text style={styles.containerHeadline}>
             Unlimited Play.{"\n"}Try free for 7 days.
           </Text>
@@ -102,6 +108,7 @@ const SubscribeModal = forwardRef<Ref>((props, ref) => {
             period from your iTunes account settings.
           </Text>
         </BottomSheetScrollView>
+
         <View style={[styles.footer, { paddingBottom: bottom }]}>
           <TouchableOpacity style={defaultStyles.btn}>
             <Text style={defaultStyles.btnText}>Try 7 days free</Text>
@@ -110,7 +117,7 @@ const SubscribeModal = forwardRef<Ref>((props, ref) => {
             2,99 €/month after 7-day trial. Cancel anytime.
           </Text>
         </View>
-      </View>
+      </BottomSheetView>
     </BottomSheetModal>
   );
 });
@@ -158,9 +165,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     backgroundColor: "#fff",
-    marginTop: "auto",
+    // marginTop: "auto",
     paddingHorizontal: 20,
-
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
