@@ -114,11 +114,13 @@ const Page = () => {
 
     setTimeout(() => {
       if (currentWord === word) {
-        console.log("You win!");
-        // TODO: show win screen
+        console.log("Winner: Word found!", word);
+        // Show end screen
+        router.push(`/end?win=true&word=${word}&gameField=${JSON.stringify(rows)}`);
       } else if (curRow + 1 >= rows.length) {
-        console.log("You lose! The word was", word);
-        // TODO: show lose screen
+        console.log("LOST: Game over. The word was", word);
+        // Show end screen
+        router.push(`/end?win=false&word=${word}&gameField=${JSON.stringify(rows)}`);
       }
     }, 0);
 
