@@ -5,10 +5,9 @@ import Icon from "@/assets/images/wordle-icon.svg";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import * as MailComposer from "expo-mail-composer";
-// import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
 import { useEffect, useState } from "react";
-// import { doc, getDoc, setDoc } from "firebase/firestore";
-// import { FIRESTORE_DB } from "@/utils/FirebaseConfig";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { FIRESTORE_DB } from "@/utils/FirebaseConfig";
 import { useAuth, useUser } from "@clerk/expo";
 
 const Page = () => {
@@ -19,46 +18,44 @@ const Page = () => {
   }>();
   const router = useRouter();
   const { user } = useUser();
-  const [userScore, setUserScore] = useState<any>({
-    played: 42,
-    wins: 20,
-    currentStreak: 3,
-  });
+  const [userScore, setUserScore] = useState<any>();
   const { isSignedIn, signOut } = useAuth();
 
-  //   useEffect(() => {
-  //     updateHighscore();
-  //   }, [user]);
+  useEffect(() => {
+    if (user) {
+      updateHighscore();
+    }
+  }, [user]);
 
-  //   const updateHighscore = async () => {
-  //     if (!user) return;
+  const updateHighscore = async () => {
+    if (!user) return;
 
-  //     const docRef = doc(FIRESTORE_DB, `highscore/${user.id}`);
-  //     const userScore = await getDoc(docRef);
+    const docRef = doc(FIRESTORE_DB, `highscore/${user.id}`);
+    const userScore = await getDoc(docRef);
 
-  //     let newScore = {
-  //       played: 1,
-  //       wins: win === "true" ? 1 : 0,
-  //       lastGame: win === "true" ? "win" : "loss",
-  //       currentStreak: win === "true" ? 1 : 0,
-  //     };
+    let newScore = {
+      played: 1,
+      wins: win === "true" ? 1 : 0,
+      lastGame: win === "true" ? "win" : "loss",
+      currentStreak: win === "true" ? 1 : 0,
+    };
 
-  //     if (userScore.exists()) {
-  //       const data = userScore.data();
+    if (userScore.exists()) {
+      const data = userScore.data();
 
-  //       newScore = {
-  //         played: data.played + 1,
-  //         wins: win === "true" ? data.wins + 1 : data.wins,
-  //         lastGame: win === "true" ? "win" : "loss",
-  //         currentStreak:
-  //           win === "true" && data.lastGame === "win"
-  //             ? data.currentStreak + 1
-  //             : 0,
-  //       };
-  //     }
-  //     await setDoc(docRef, newScore);
-  //     setUserScore(newScore);
-  //   };
+      newScore = {
+        played: data.played + 1,
+        wins: win === "true" ? data.wins + 1 : data.wins,
+        lastGame: win === "true" ? "win" : "loss",
+        currentStreak:
+          win === "true" && data.lastGame === "win"
+            ? data.currentStreak + 1
+            : 0,
+      };
+    }
+    await setDoc(docRef, newScore);
+    setUserScore(newScore);
+  };
 
   const shareGame = () => {
     const game = JSON.parse(gameField!);
